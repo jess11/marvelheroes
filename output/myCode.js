@@ -9468,30 +9468,346 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var HelloWorld = _react2.default.createClass({
-  displayName: "HelloWorld",
+var PLAYERS = [{
+  name: "Jim Hoskins",
+  score: 31,
+  id: 1
+}, {
+  name: "Andrew Chalkey",
+  score: 35,
+  id: 2
+}, {
+  name: "Alena Holligan",
+  score: 30,
+  id: 3
+}];
+
+var nextId = 4;
+
+var Stopwatch = _react2.default.createClass({
+  displayName: "Stopwatch",
+
+  getInitialState: function getInitialState() {
+    return {
+      running: false,
+      elapsedTime: 0,
+      previousTime: 0
+    };
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.interval = setInterval(this.onTick, 1000);
+  },
+  //Must unmount component, otherwise will get a memory leak!!!
+  componentWillUnmount: function componentWillUnmount() {
+    clearInterval(this.interval);
+  },
+
+  onTick: function onTick() {
+    if (this.state.running) {
+      var now = Date.now();
+      this.setState({
+        previousTime: now,
+        elapsedTime: this.state.elapsedTime + (now - this.state.previousTime)
+      });
+    }
+    console.log('onclick');
+  },
+
+  onStart: function onStart() {
+    this.setState({
+      running: true,
+      previousTime: Date.now()
+    });
+  },
+  onStop: function onStop() {
+    this.setState({ running: false });
+  },
+  onReset: function onReset() {
+    this.setState({
+      elapsedTime: 0,
+      previousTime: Date.now()
+    });
+  },
 
   render: function render() {
+    var seconds = Math.floor(this.state.elapsedTime / 1000);
+    // let startStop;
+    // if (this.state.running){
+    //   startStop = <button>Stop</button>;
+    // } else {
+    //   startStop = <button>Start</button>;
+    // }
     return _react2.default.createElement(
-      "p",
-      null,
-      "Hello, ",
-      this.props.greetTarget,
-      "!"
+      "div",
+      { className: "stopwatch" },
+      _react2.default.createElement(
+        "h2",
+        null,
+        "Stopwatch"
+      ),
+      _react2.default.createElement(
+        "div",
+        { className: "stopwatch-time" },
+        seconds
+      ),
+      this.state.running ? _react2.default.createElement(
+        "button",
+        { onClick: this.onStop },
+        "Stop"
+      ) : _react2.default.createElement(
+        "button",
+        { onClick: this.onStart },
+        "Start"
+      ),
+      _react2.default.createElement(
+        "button",
+        { onClick: this.onReset },
+        "Reset"
+      )
     );
   }
 });
 
-_reactDom2.default.render(_react2.default.createElement(
-  "div",
-  null,
-  _react2.default.createElement(HelloWorld, { greetTarget: "Batman" }),
-  _react2.default.createElement(HelloWorld, { greetTarget: "Iron Man" }),
-  _react2.default.createElement(HelloWorld, { greetTarget: "Nicolas Cage" }),
-  _react2.default.createElement(HelloWorld, { greetTarget: "Mega Man" }),
-  _react2.default.createElement(HelloWorld, { greetTarget: "Bono" }),
-  _react2.default.createElement(HelloWorld, { greetTarget: "Catwoman" })
-), document.querySelector("#container"));
+var AddPlayerForm = _react2.default.createClass({
+  displayName: "AddPlayerForm",
+
+  propTypes: {
+    onAdd: _react2.default.PropTypes.func.isRequired
+  },
+  getInitialState: function getInitialState() {
+    return {
+      name: ""
+    };
+  },
+  onNameChange: function onNameChange(e) {
+    console.log('onNameChange', e.target.value);
+    this.setState({ name: e.target.value });
+  },
+  onSubmit: function onSubmit(e) {
+    e.preventDefault();
+    this.props.onAdd(this.state.name);
+    this.setState({ name: "" });
+  },
+
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "add-player-form" },
+      _react2.default.createElement(
+        "form",
+        { onSubmit: this.onSubmit },
+        _react2.default.createElement("input", { type: "text", value: this.state.name, onChange: this.onNameChange }),
+        _react2.default.createElement("input", { type: "submit", value: "Add Player" })
+      )
+    );
+  }
+});
+
+function Stats(props) {
+  var totalPlayers = props.players.length;
+  var totalPoints = props.players.reduce(function (total, player) {
+    return total + player.score;
+  }, 0);
+
+  return _react2.default.createElement(
+    "table",
+    { className: "stats" },
+    _react2.default.createElement(
+      "tbody",
+      null,
+      _react2.default.createElement(
+        "tr",
+        null,
+        _react2.default.createElement(
+          "td",
+          null,
+          "Players:"
+        ),
+        _react2.default.createElement(
+          "td",
+          null,
+          totalPlayers
+        )
+      ),
+      _react2.default.createElement(
+        "tr",
+        null,
+        _react2.default.createElement(
+          "td",
+          null,
+          "Total Points:"
+        ),
+        _react2.default.createElement(
+          "td",
+          null,
+          totalPoints
+        )
+      )
+    )
+  );
+}
+Stats.propTypes = {
+  players: _react2.default.PropTypes.array.isRequired
+
+};
+
+function Header(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "header" },
+    _react2.default.createElement(Stats, { players: props.players }),
+    _react2.default.createElement(
+      "h1",
+      null,
+      props.title
+    ),
+    "  ",
+    _react2.default.createElement(Stopwatch, null)
+  );
+}
+Header.propTypes = {
+  title: _react2.default.PropTypes.string.isRequired,
+  players: _react2.default.PropTypes.array.isRequired
+};
+
+function Counter(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "counter" },
+    _react2.default.createElement(
+      "button",
+      { className: "counter-action decrement", onClick: function onClick() {
+          props.onChange(-1);
+        } },
+      " - "
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "counter-score" },
+      " ",
+      props.score,
+      " "
+    ),
+    _react2.default.createElement(
+      "button",
+      { className: "counter-action increment", onClick: function onClick() {
+          props.onChange(+1);
+        } },
+      " + "
+    )
+  );
+}
+
+Counter.propTypes = {
+  score: _react2.default.PropTypes.number.isRequired,
+  onChange: _react2.default.PropTypes.func.isRequired
+};
+
+function Player(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "player" },
+    _react2.default.createElement(
+      "div",
+      { className: "player-name" },
+      _react2.default.createElement(
+        "a",
+        { className: "remove-player", onClick: props.onRemove },
+        "x"
+      ),
+      props.name
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "player-score" },
+      _react2.default.createElement(Counter, { score: props.score, onChange: props.onScoreChange })
+    )
+  );
+}
+Player.propTypes = {
+  name: _react2.default.PropTypes.string.isRequired,
+  score: _react2.default.PropTypes.number.isRequired,
+  onScoreChange: _react2.default.PropTypes.func.isRequired,
+  onRemove: _react2.default.PropTypes.func.isRequired
+};
+
+var Application = _react2.default.createClass({
+  displayName: "Application",
+
+  propTypes: {
+    title: _react2.default.PropTypes.string,
+    initialPlayers: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
+      name: _react2.default.PropTypes.string.isRequired,
+      score: _react2.default.PropTypes.number.isRequired,
+      id: _react2.default.PropTypes.number.isRequired
+    })).isRequired
+  },
+
+  getDefaultProps: function getDefaultProps() {
+    return {
+      title: "Scoreboard"
+    };
+  },
+
+  getInitialState: function getInitialState() {
+    return {
+      players: this.props.initialPlayers
+    };
+  },
+
+  onScoreChange: function onScoreChange(index, delta) {
+    console.log('onScoreChange', index, delta);
+    this.state.players[index].score += delta;
+    this.setState(this.state);
+  },
+
+  onPlayerAdd: function onPlayerAdd(name) {
+    console.log('Player added: ', name);
+    this.state.players.push({
+      name: name,
+      score: 0,
+      id: nextId
+    });
+    this.setState(this.state);
+    nextId += 1;
+  },
+
+  onRemovePlayer: function onRemovePlayer(index) {
+    this.state.players.splice(index, 1);
+    this.setState(this.state);
+  },
+
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "scoreboard" },
+      _react2.default.createElement(Header, { title: this.props.title, players: this.state.players }),
+      _react2.default.createElement(
+        "div",
+        { className: "players" },
+        this.props.initialPlayers.map(function (player, index) {
+          return _react2.default.createElement(Player, {
+            onScoreChange: function (delta) {
+              this.onScoreChange(index, delta);
+            }.bind(this),
+            onRemove: function () {
+              this.onRemovePlayer(index);
+            }.bind(this),
+            name: player.name,
+            score: player.score,
+            key: player.id });
+          {/* a key allows for react to know to move items around instead of replacing them all*/}
+        }.bind(this))
+      ),
+      _react2.default.createElement(AddPlayerForm, { onAdd: this.onPlayerAdd })
+    );
+  }
+
+});
+
+//Application has a self closing tag as it has no children
+_reactDom2.default.render(_react2.default.createElement(Application, { initialPlayers: PLAYERS }), document.getElementById('container'));
 
 /***/ }),
 /* 82 */

@@ -24,5 +24,8 @@
       "es2015",
       "react"
     ]
+  },
+  "devDependencies": {
+    "react-hot-loader": "^1.3.1"
   }
 }
