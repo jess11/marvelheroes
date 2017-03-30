@@ -54,11 +54,11 @@ var Application = React.createClass({
   //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
   // },
 
-  loadData: function(){
-      makeApiCall().then(function(data){
-        this.setState({data:data.data.results[nextId]}.bind(this));
-      });
-  },
+  // loadData: function(){
+  //     makeApiCall().then(function(data){
+  //       this.setState({data:data.data.results[nextId]}.bind(this));
+  //     });
+  // },
 
   componentDidMount: function(){
 		this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a");
