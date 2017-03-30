@@ -9473,6 +9473,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var nextId = 0;
+var fetchedData = void 0;
 
 // function makeApiCall(){
 // 	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
@@ -9504,29 +9505,68 @@ Header.propTypes = {
   title: _react2.default.PropTypes.string.isRequired
 };
 
+var cell = _react2.default.createClass({
+  displayName: "cell",
+
+  getInitialState: function getInitialState() {
+    return { name: "", descriptions: "", thumbnail: "" };
+  },
+  loadCommentsFromServer: function loadCommentsFromServer() {},
+  /**
+   * componentDidMount is a method called automatically by React when a component is rendered.
+   */
+  componentDidMount: function componentDidMount() {},
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "col-md-4 col-md-4" },
+      _react2.default.createElement(
+        "h2",
+        null,
+        this.props.title
+      ),
+      _react2.default.createElement(
+        "p",
+        { className: "pCell descriptionCell" },
+        this.props.description
+      ),
+      _react2.default.createElement("img", { className: "img-responsive", src: this.props.thumbnail, alt: this.props.description })
+    );
+  }
+});
+
 var Application = _react2.default.createClass({
   displayName: "Application",
 
   getInitialState: function getInitialState() {
-    return { searchResults: [],
-      getImage: "" };
+    return { data: fetchedData || [] };
   },
-  showResults: function showResults(response) {
-    this.setState({
-      searchResults: response.data.results[0]
+  // showResults: function(response){
+  //   this.setState({
+  //     searchResults: response.data.results[0]
+  //   })
+  //   console.log(response.data.results[0]);
+  // },
+  loadAPI: function loadAPI() {
+    _jquery2.default.ajax({
+      url: "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a",
+      dataType: 'json',
+      cache: true,
+      success: function (data) {
+        fetchedData = data.data.results;
+        this.setState({ data: data.data.results });
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
     });
-    console.log(response.data.results[0]);
   },
-  search: function search(URL) {
-    _jquery2.default.get("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a").then(function (response) {
-      this.showResults(response);
-    }.bind(this));
-  },
-  getImage: function getImage() {
-    this.setState({
-      pullImage: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension
-    });
-  },
+
+  // getImage: function(){
+  //   this.setState({
+  //     pullImage: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension
+  //   })
+  // },
 
   // loadData: function(){
   //     makeApiCall().then(function(data){
@@ -9535,12 +9575,14 @@ var Application = _react2.default.createClass({
   // },
 
   componentDidMount: function componentDidMount() {
-    this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a");
+    if (!fetchedData) {
+      this.loadAPI();
+    }
   },
 
-  propTypes: {
-    title: _react2.default.PropTypes.string
-  },
+  // propTypes: {
+  //   title: React.PropTypes.string,
+  // },
 
   getDefaultProps: function getDefaultProps() {
     return {
@@ -9549,22 +9591,16 @@ var Application = _react2.default.createClass({
   },
 
   render: function render() {
-    if (this.state.pullImage == true) {
-      return _react2.default.createElement(
-        "div",
-        { className: "scoreboard" },
-        _react2.default.createElement(Header, { title: this.props.title }),
-        _react2.default.createElement(
-          "div",
-          { className: "heroWrapper" },
-          _react2.default.createElement("img", { src: this.state.pullImage })
-        )
-      );
-    }
+    var rows = [];
+    this.state.data.forEach(function (hero) {
+      var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
+
+      rows.push(_react2.default.createElement(Cell, { title: hero.name, description: hero.description, thumbnail: thumbnail }));
+    });
     return _react2.default.createElement(
       "div",
-      null,
-      "Loading..."
+      { className: "row" },
+      rows
     );
   }
 });
