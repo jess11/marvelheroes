@@ -9530,7 +9530,7 @@ var Application = _react2.default.createClass({
       cache: true,
       success: function (data) {
         fetchedData = data.data.results;
-        this.setState({ data: data.data.results, id: nextId });
+        this.setState({ data: data.data.results, id: 0 });
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(this.props.url, status, err.toString());
