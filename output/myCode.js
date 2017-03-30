@@ -9475,21 +9475,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var nextId = 0;
 var fetchedData = void 0;
 
-// function makeApiCall(){
-// 	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
-// 	return $.get(url)
-// }
-
-// let Image = React.createClass({
-//   render: function(){
-//     console.log(this.props.searchResults === true);
-//     return(
-//       <img src={this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension} />
-//     )
-//   }
-// })
-
-
 function Header(props) {
   return _react2.default.createElement(
     "div",
@@ -9511,15 +9496,11 @@ var Cell = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return { name: "", descriptions: "", thumbnail: "" };
   },
-  loadCommentsFromServer: function loadCommentsFromServer() {},
-  /**
-   * componentDidMount is a method called automatically by React when a component is rendered.
-   */
-  componentDidMount: function componentDidMount() {},
+
   render: function render() {
     return _react2.default.createElement(
       "div",
-      { className: "col-md-4 col-md-4" },
+      null,
       _react2.default.createElement(
         "h2",
         null,
@@ -9527,10 +9508,10 @@ var Cell = _react2.default.createClass({
       ),
       _react2.default.createElement(
         "p",
-        { className: "pCell descriptionCell" },
+        null,
         this.props.description
       ),
-      _react2.default.createElement("img", { className: "img-responsive", src: this.props.thumbnail, alt: this.props.description })
+      _react2.default.createElement("img", { src: this.props.thumbnail, alt: this.props.description })
     );
   }
 });
@@ -9541,12 +9522,7 @@ var Application = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return { data: fetchedData || [] };
   },
-  // showResults: function(response){
-  //   this.setState({
-  //     searchResults: response.data.results[0]
-  //   })
-  //   console.log(response.data.results[0]);
-  // },
+
   loadAPI: function loadAPI() {
     _jquery2.default.ajax({
       url: "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a",
@@ -9554,7 +9530,7 @@ var Application = _react2.default.createClass({
       cache: true,
       success: function (data) {
         fetchedData = data.data.results;
-        this.setState({ data: data.data.results });
+        this.setState({ data: data.data.results, id: nextId });
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -9580,26 +9556,35 @@ var Application = _react2.default.createClass({
     }
   },
 
-  // propTypes: {
-  //   title: React.PropTypes.string,
-  // },
-
   getDefaultProps: function getDefaultProps() {
     return {
       title: "Marvel Superheroes"
     };
   },
 
+  clicked: function clicked() {
+    nextId += 1;
+    this.setState({
+      id: nextId
+    });
+  },
+
   render: function render() {
     var rows = [];
-    this.state.data.forEach(function (hero) {
-      var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
+    var id = this.state.id;
+    var hero = this.state.data[id];
+    var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
 
-      rows.push(_react2.default.createElement(Cell, { title: hero.name, description: hero.description, thumbnail: thumbnail }));
-    });
+    rows.push(_react2.default.createElement(Cell, { title: hero.name, description: hero.description, thumbnail: thumbnail }));
+
     return _react2.default.createElement(
       "div",
       { className: "row" },
+      _react2.default.createElement(
+        "button",
+        { onClick: this.clicked },
+        "CLICK"
+      ),
       rows
     );
   }
