@@ -9546,7 +9546,7 @@ var Application = _react2.default.createClass({
   },
 
   render: function render() {
-    if (this.state.searchResults == true) {
+    if (this.state.getImage == true) {
       return _react2.default.createElement(
         "div",
         { className: "scoreboard" },

@@ -70,7 +70,7 @@ var Application = React.createClass({
   },
 
   render: function() {
-    if(this.state.searchResults == true){
+    if(this.state.getImage == true){
       return (
         <div className="scoreboard">
           <Header title={this.props.title}/>
