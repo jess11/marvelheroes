@@ -4,10 +4,20 @@ import $ from "jquery";
 
 let nextId=0;
 
-function makeApiCall(){
-	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
-	return $.get(url)
-}
+// function makeApiCall(){
+// 	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
+// 	return $.get(url)
+// }
+
+let Image = React.createClass({
+  render: function(){
+    let imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
+    return(
+      <img src= {imageURL} />
+    )
+
+  }
+})
 
 
 function Header(props){
@@ -22,20 +32,39 @@ Header.propTypes = {
 };
 
 var Application = React.createClass({
+  getInitialState: function(){
+    return {searchResults: []}
+	},
+  showResults: function(response){
+    this.setState({
+      searchResults: response.data.results[nextId]
+    })
+    console.log(response.data.results[nextId]);
+  },
+  search: function(URL){
+    $.ajax({
+      type: "GET",
+      dataType: 'jsonp',
+      url: URL,
+      success: function(response){
+        this.showResults(response);
+      }.bind(this)
+    })
+  },
+  // getImage: function(){
+  //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
+  // },
+
   loadData: function(){
       makeApiCall().then(function(data){
         this.setState({data:data.data.results[nextId]}.bind(this));
       });
   },
-  getInitialState: function(){
-    return {data: this.state.data}
+
+  componentDidMount: function(){
+		this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a");
 	},
-  getImage: function(){
-    return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
-  },
-  componentWillMount: function(){
-		this.loadData();
-	},
+
   propTypes: {
     title: React.PropTypes.string,
   },
@@ -51,9 +80,8 @@ var Application = React.createClass({
       <div className="scoreboard">
         <Header title={this.props.title}/>
         <div className="heroWrapper">
-          <img src={this.getImage()}/>
+          <Image searchResults= {this.state.searchResults}/>
         </div>
-
       </div>
     );
   }

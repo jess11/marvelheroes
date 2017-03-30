@@ -9474,10 +9474,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var nextId = 0;
 
-function makeApiCall() {
-  var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a";
-  return _jquery2.default.get(url);
-}
+// function makeApiCall(){
+// 	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
+// 	return $.get(url)
+// }
+
+var Image = _react2.default.createClass({
+  displayName: "Image",
+
+  render: function render() {
+    var imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
+    return _react2.default.createElement("img", { src: imageURL });
+  }
+});
 
 function Header(props) {
   return _react2.default.createElement(
@@ -9497,20 +9506,39 @@ Header.propTypes = {
 var Application = _react2.default.createClass({
   displayName: "Application",
 
+  getInitialState: function getInitialState() {
+    return { searchResults: [] };
+  },
+  showResults: function showResults(response) {
+    this.setState({
+      searchResults: response.data.results[nextId]
+    });
+    console.log(response.data.results[nextId]);
+  },
+  search: function search(URL) {
+    _jquery2.default.ajax({
+      type: "GET",
+      dataType: 'jsonp',
+      url: URL,
+      success: function (response) {
+        this.showResults(response);
+      }.bind(this)
+    });
+  },
+  // getImage: function(){
+  //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
+  // },
+
   loadData: function loadData() {
     makeApiCall().then(function (data) {
       this.setState({ data: data.data.results[nextId] }.bind(this));
     });
   },
-  getInitialState: function getInitialState() {
-    return { data: this.state.data };
+
+  componentDidMount: function componentDidMount() {
+    this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a");
   },
-  getImage: function getImage() {
-    return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension;
-  },
-  componentWillMount: function componentWillMount() {
-    this.loadData();
-  },
+
   propTypes: {
     title: _react2.default.PropTypes.string
   },
@@ -9529,7 +9557,7 @@ var Application = _react2.default.createClass({
       _react2.default.createElement(
         "div",
         { className: "heroWrapper" },
-        _react2.default.createElement("img", { src: this.getImage() })
+        _react2.default.createElement(Image, { searchResults: this.state.searchResults })
       )
     );
   }
