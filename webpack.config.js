@@ -16,7 +16,8 @@ var config = {
         include: DEV,
         loader: "babel-loader",
     }]
-  }
+  },
+  watch: true
 
 };
 
