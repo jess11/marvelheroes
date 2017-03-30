@@ -32,7 +32,8 @@ Header.propTypes = {
 
 var Application = React.createClass({
   getInitialState: function(){
-    return {searchResults: []}
+    return {searchResults: [],
+            getImage: "" }
 	},
   showResults: function(response){
     this.setState({

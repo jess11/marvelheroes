@@ -9508,7 +9508,8 @@ var Application = _react2.default.createClass({
   displayName: "Application",
 
   getInitialState: function getInitialState() {
-    return { searchResults: [] };
+    return { searchResults: [],
+      getImage: "" };
   },
   showResults: function showResults(response) {
     this.setState({
