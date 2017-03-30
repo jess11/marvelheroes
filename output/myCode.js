@@ -9483,6 +9483,7 @@ var Image = _react2.default.createClass({
   displayName: "Image",
 
   render: function render() {
+    console.log(this.props.searchResults);
     // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
     return _react2.default.createElement("img", null);
   }
@@ -9516,14 +9517,9 @@ var Application = _react2.default.createClass({
     console.log(response.data.results[nextId]);
   },
   search: function search(URL) {
-    _jquery2.default.ajax({
-      type: "GET",
-      dataType: 'jsonp',
-      url: URL,
-      success: function (response) {
-        this.showResults(response);
-      }.bind(this)
-    });
+    _jquery2.default.get("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a").then(function (response) {
+      this.showResults(response);
+    }.bind(this));
   },
   // getImage: function(){
   //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension

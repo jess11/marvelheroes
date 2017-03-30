@@ -11,6 +11,7 @@ let nextId=0;
 
 let Image = React.createClass({
   render: function(){
+    console.log(this.props.searchResults);
     // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
     return(
       <img  />
@@ -41,14 +42,9 @@ var Application = React.createClass({
     console.log(response.data.results[nextId]);
   },
   search: function(URL){
-    $.ajax({
-      type: "GET",
-      dataType: 'jsonp',
-      url: URL,
-      success: function(response){
-        this.showResults(response);
-      }.bind(this)
-    })
+    $.get("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a").then(function(response){
+      this.showResults(response);
+    }.bind(this))
   },
   // getImage: function(){
   //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
