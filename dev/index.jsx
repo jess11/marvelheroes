@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import $ from "jquery";
 
 let nextId=0;
 
 function makeApiCall(){
-	var url = "https://gateway.marvel.com:443/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
-	return $.get(url);
+	var url = "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a"
+	return $.get(url)
 }
 
 
