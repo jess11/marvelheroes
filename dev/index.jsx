@@ -31,7 +31,7 @@ Header.propTypes = {
   title: React.PropTypes.string.isRequired,
 };
 
-var cell = React.createClass({
+var Cell = React.createClass({
     getInitialState: function() {
         return { name: "", descriptions: "", thumbnail: ""};
     },

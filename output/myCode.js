@@ -9505,8 +9505,8 @@ Header.propTypes = {
   title: _react2.default.PropTypes.string.isRequired
 };
 
-var cell = _react2.default.createClass({
-  displayName: "cell",
+var Cell = _react2.default.createClass({
+  displayName: "Cell",
 
   getInitialState: function getInitialState() {
     return { name: "", descriptions: "", thumbnail: "" };
