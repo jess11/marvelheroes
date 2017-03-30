@@ -9499,13 +9499,11 @@ var Application = _react2.default.createClass({
 
   loadData: function loadData() {
     makeApiCall().then(function (data) {
-      this.setState({ data: data.data.results[nextId] });
+      this.setState({ data: data.data.results[nextId] }.bind(this));
     });
   },
   getInitialState: function getInitialState() {
-    makeApiCall().then(function (data) {
-      return { data: data.data.results[nextId] };
-    });
+    return { data: this.state.data };
   },
   getImage: function getImage() {
     return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension;
@@ -9514,8 +9512,7 @@ var Application = _react2.default.createClass({
     this.loadData();
   },
   propTypes: {
-    title: _react2.default.PropTypes.string,
-    data: _react2.default.PropTypes.array
+    title: _react2.default.PropTypes.string
   },
 
   getDefaultProps: function getDefaultProps() {

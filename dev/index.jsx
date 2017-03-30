@@ -24,13 +24,11 @@ Header.propTypes = {
 var Application = React.createClass({
   loadData: function(){
       makeApiCall().then(function(data){
-        this.setState({data:data.data.results[nextId]});
-      })
+        this.setState({data:data.data.results[nextId]}.bind(this));
+      });
   },
   getInitialState: function(){
-    makeApiCall().then(function(data){
-      return { data : data.data.results[nextId]}
-    })
+    return {data: this.state.data}
 	},
   getImage: function(){
     return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
@@ -40,7 +38,6 @@ var Application = React.createClass({
 	},
   propTypes: {
     title: React.PropTypes.string,
-    data: React.PropTypes.array,
   },
 
   getDefaultProps: function() {
