@@ -9524,7 +9524,7 @@ var Application = _react2.default.createClass({
   },
   getImage: function getImage() {
     this.setState({
-      pullImage: this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+      pullImage: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension
     });
   },
 

@@ -48,7 +48,7 @@ var Application = React.createClass({
   },
   getImage: function(){
     this.setState({
-      pullImage: this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+      pullImage: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension
     })
   },
 
