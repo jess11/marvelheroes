@@ -9500,14 +9500,13 @@ var Application = _react2.default.createClass({
   loadData: function loadData() {
     makeApiCall().then(function (data) {
       this.setState({ data: data.data.results[nextId] });
-      nextId += 1;
     });
   },
   getInitialState: function getInitialState() {
     return { data: [] };
   },
   getImage: function getImage() {
-    return this.props.data;
+    return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension;
   },
   componentWillMount: function componentWillMount() {
     this.loadData();

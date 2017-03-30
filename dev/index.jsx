@@ -25,14 +25,13 @@ var Application = React.createClass({
   loadData: function(){
       makeApiCall().then(function(data){
         this.setState({data:data.data.results[nextId]});
-        nextId += 1;
       })
   },
   getInitialState: function(){
-		return{ data: []};
+    return{ data:[]}
 	},
   getImage: function(){
-    return this.props.data
+    return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
   },
   componentWillMount: function(){
 		this.loadData();
