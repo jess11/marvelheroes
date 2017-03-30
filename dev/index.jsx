@@ -11,11 +11,10 @@ let nextId=0;
 
 let Image = React.createClass({
   render: function(){
-    let imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
+    // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
     return(
-      <img src= {imageURL} />
+      <img  />
     )
-
   }
 })
 

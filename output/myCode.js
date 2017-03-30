@@ -9483,8 +9483,8 @@ var Image = _react2.default.createClass({
   displayName: "Image",
 
   render: function render() {
-    var imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
-    return _react2.default.createElement("img", { src: imageURL });
+    // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
+    return _react2.default.createElement("img", null);
   }
 });
 
