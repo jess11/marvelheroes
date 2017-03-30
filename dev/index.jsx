@@ -47,7 +47,9 @@ var Application = React.createClass({
     }.bind(this))
   },
   getImage: function(){
-    return this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+    this.setState({
+      pullImage: this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+    })
   },
 
   // loadData: function(){
@@ -71,13 +73,13 @@ var Application = React.createClass({
   },
 
   render: function() {
-    if(this.state.getImage == true){
+    if(this.state.pullImage == true){
       return (
         <div className="scoreboard">
           <Header title={this.props.title}/>
           <div className="heroWrapper">
 
-            <img src={this.state.getImage}/>
+            <img src={this.state.pullImage}/>
           </div>
         </div>
       );

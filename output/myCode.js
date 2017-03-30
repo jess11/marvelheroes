@@ -9523,7 +9523,9 @@ var Application = _react2.default.createClass({
     }.bind(this));
   },
   getImage: function getImage() {
-    return this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension;
+    this.setState({
+      pullImage: this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+    });
   },
 
   // loadData: function(){
@@ -9547,7 +9549,7 @@ var Application = _react2.default.createClass({
   },
 
   render: function render() {
-    if (this.state.getImage == true) {
+    if (this.state.pullImage == true) {
       return _react2.default.createElement(
         "div",
         { className: "scoreboard" },
@@ -9555,7 +9557,7 @@ var Application = _react2.default.createClass({
         _react2.default.createElement(
           "div",
           { className: "heroWrapper" },
-          _react2.default.createElement("img", { src: this.state.getImage })
+          _react2.default.createElement("img", { src: this.state.pullImage })
         )
       );
     }
