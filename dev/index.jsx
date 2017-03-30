@@ -25,10 +25,12 @@ var Application = React.createClass({
   loadData: function(){
       makeApiCall().then(function(data){
         this.setState({data:data.data.results[nextId]});
-        console.log(data.data.results[nextId]);
         nextId += 1;
       })
   },
+  getInitialState: function(){
+		return{ data: []};
+	},
   getImage: function(){
     return this.props.data
   },
@@ -37,6 +39,7 @@ var Application = React.createClass({
 	},
   propTypes: {
     title: React.PropTypes.string,
+    data: React.PropTypes.array,
   },
 
   getDefaultProps: function() {

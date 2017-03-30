@@ -9500,9 +9500,11 @@ var Application = _react2.default.createClass({
   loadData: function loadData() {
     makeApiCall().then(function (data) {
       this.setState({ data: data.data.results[nextId] });
-      console.log(data.data.results[nextId]);
       nextId += 1;
     });
+  },
+  getInitialState: function getInitialState() {
+    return { data: [] };
   },
   getImage: function getImage() {
     return this.props.data;
@@ -9511,7 +9513,8 @@ var Application = _react2.default.createClass({
     this.loadData();
   },
   propTypes: {
-    title: _react2.default.PropTypes.string
+    title: _react2.default.PropTypes.string,
+    data: _react2.default.PropTypes.array
   },
 
   getDefaultProps: function getDefaultProps() {
