@@ -28,7 +28,9 @@ var Application = React.createClass({
       })
   },
   getInitialState: function(){
-    return{ data:[]}
+    makeApiCall().then(function(data){
+      return { data : data.data.results[nextId]}
+    })
 	},
   getImage: function(){
     return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension

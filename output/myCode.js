@@ -9503,7 +9503,9 @@ var Application = _react2.default.createClass({
     });
   },
   getInitialState: function getInitialState() {
-    return { data: [] };
+    makeApiCall().then(function (data) {
+      return { data: data.data.results[nextId] };
+    });
   },
   getImage: function getImage() {
     return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension;
