@@ -25,8 +25,9 @@ var Application = React.createClass({
   loadData: function(){
       makeApiCall().then(function(data){
         this.setState({data:data.data.results[nextId]});
-      nextId += 1;
-      }).bind(this);
+        console.log(data.data.results[nextId]);
+        nextId += 1;
+      })
   },
   getImage: function(){
     return this.props.data
