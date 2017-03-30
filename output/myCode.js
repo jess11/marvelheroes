@@ -9483,9 +9483,17 @@ var Image = _react2.default.createClass({
   displayName: "Image",
 
   render: function render() {
-    console.log(this.props.searchResults);
-    // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
-    return _react2.default.createElement("img", null);
+    console.log(this.props.searchResults === true);
+
+    return _react2.default.createElement(
+      "div",
+      null,
+      this.props.searchResults ? _react2.default.createElement("img", { src: this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension }) : _react2.default.createElement(
+        "div",
+        null,
+        "Loading..."
+      )
+    );
   }
 });
 
@@ -9512,9 +9520,9 @@ var Application = _react2.default.createClass({
   },
   showResults: function showResults(response) {
     this.setState({
-      searchResults: response.data.results[nextId]
+      searchResults: response.data.results[0]
     });
-    console.log(response.data.results[nextId]);
+    console.log(response.data.results[0]);
   },
   search: function search(URL) {
     _jquery2.default.get("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a").then(function (response) {

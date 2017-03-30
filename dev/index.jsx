@@ -11,10 +11,15 @@ let nextId=0;
 
 let Image = React.createClass({
   render: function(){
-    console.log(this.props.searchResults);
-    // imageURL = this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension;
+    console.log(this.props.searchResults === true);
+
     return(
-      <img  />
+      <div>
+      {this.props.searchResults ?
+            <img src={this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension} />
+      :
+          <div>Loading...</div>}
+      </div>
     )
   }
 })
@@ -37,9 +42,9 @@ var Application = React.createClass({
 	},
   showResults: function(response){
     this.setState({
-      searchResults: response.data.results[nextId]
+      searchResults: response.data.results[0]
     })
-    console.log(response.data.results[nextId]);
+    console.log(response.data.results[0]);
   },
   search: function(URL){
     $.get("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a").then(function(response){
@@ -57,7 +62,7 @@ var Application = React.createClass({
   // },
 
   componentDidMount: function(){
-		this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a");
+		this.search("https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a")
 	},
 
   propTypes: {
