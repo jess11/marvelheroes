@@ -9530,7 +9530,7 @@ var Application = _react2.default.createClass({
       cache: true,
       success: function (data) {
         fetchedData = data.data.results;
-        this.setState({ data: data.data.results, id: 0 });
+        this.setState({ data: data.data.results });
       }.bind(this),
       error: function (xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -9556,35 +9556,26 @@ var Application = _react2.default.createClass({
     }
   },
 
+  // propTypes: {
+  //   title: React.PropTypes.string,
+  // },
+
   getDefaultProps: function getDefaultProps() {
     return {
       title: "Marvel Superheroes"
     };
   },
 
-  clicked: function clicked() {
-    nextId += 1;
-    this.setState({
-      id: nextId
-    });
-  },
-
   render: function render() {
     var rows = [];
-    var id = this.state.id;
-    var hero = this.state.data[id];
-    var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
+    this.state.data.forEach(function (hero) {
+      var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
 
-    rows.push(_react2.default.createElement(Cell, { title: hero.name, description: hero.description, thumbnail: thumbnail }));
-
+      rows.push(_react2.default.createElement(Cell, { title: hero.name, description: hero.description, thumbnail: thumbnail }));
+    });
     return _react2.default.createElement(
       "div",
       { className: "row" },
-      _react2.default.createElement(
-        "button",
-        { onClick: this.clicked },
-        "CLICK"
-      ),
       rows
     );
   }

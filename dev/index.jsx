@@ -44,7 +44,7 @@ var Application = React.createClass({
       cache: true,
       success: function(data){
         fetchedData= data.data.results;
-        this.setState({data: data.data.results, id:0});
+        this.setState({data: data.data.results});
       }.bind(this),
       error: function(xhr, status, err) {
           console.error(this.props.url, status, err.toString());
@@ -70,6 +70,9 @@ var Application = React.createClass({
     }
 	},
 
+  // propTypes: {
+  //   title: React.PropTypes.string,
+  // },
 
   getDefaultProps: function() {
     return {
@@ -77,24 +80,15 @@ var Application = React.createClass({
     }
   },
 
-  clicked: function(){
-    nextId +=1;
-    this.setState({
-      id: nextId
-    });
-  },
-
   render: function() {
     var rows=[];
-    var id= this.state.id;
-    var hero = this.state.data[id];
-    var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
+    this.state.data.forEach(function(hero) {
+      var thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
 
       rows.push(<Cell title={hero.name} description={hero.description} thumbnail={thumbnail} />);
-
+  });
       return (
          <div className="row">
-         <button onClick = {this.clicked}>CLICK</button>
              {rows}
          </div>
      );
