@@ -9,20 +9,14 @@ let nextId=0;
 // 	return $.get(url)
 // }
 
-let Image = React.createClass({
-  render: function(){
-    console.log(this.props.searchResults === true);
-
-    return(
-      <div>
-      {this.props.searchResults ?
-            <img src={this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension} />
-      :
-          <div>Loading...</div>}
-      </div>
-    )
-  }
-})
+// let Image = React.createClass({
+//   render: function(){
+//     console.log(this.props.searchResults === true);
+//     return(
+//       <img src={this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension} />
+//     )
+//   }
+// })
 
 
 function Header(props){
@@ -76,14 +70,18 @@ var Application = React.createClass({
   },
 
   render: function() {
-    return (
-      <div className="scoreboard">
-        <Header title={this.props.title}/>
-        <div className="heroWrapper">
-          <Image searchResults= {this.state.searchResults}/>
+    if(this.state.searchResults){
+      return (
+        <div className="scoreboard">
+          <Header title={this.props.title}/>
+          <div className="heroWrapper">
+  
+            <img src={this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension}/>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return (<div>Loading...</div>);
   }
 });
 ReactDOM.render(<Application/>, document.getElementById('container'));

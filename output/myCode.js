@@ -9479,23 +9479,15 @@ var nextId = 0;
 // 	return $.get(url)
 // }
 
-var Image = _react2.default.createClass({
-  displayName: "Image",
+// let Image = React.createClass({
+//   render: function(){
+//     console.log(this.props.searchResults === true);
+//     return(
+//       <img src={this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension} />
+//     )
+//   }
+// })
 
-  render: function render() {
-    console.log(this.props.searchResults === true);
-
-    return _react2.default.createElement(
-      "div",
-      null,
-      this.props.searchResults ? _react2.default.createElement("img", { src: this.props.searchResults.thumbnail.path + "." + this.props.searchResults.thumbnail.extension }) : _react2.default.createElement(
-        "div",
-        null,
-        "Loading..."
-      )
-    );
-  }
-});
 
 function Header(props) {
   return _react2.default.createElement(
@@ -9554,15 +9546,22 @@ var Application = _react2.default.createClass({
   },
 
   render: function render() {
+    if (this.state.searchResults) {
+      return _react2.default.createElement(
+        "div",
+        { className: "scoreboard" },
+        _react2.default.createElement(Header, { title: this.props.title }),
+        _react2.default.createElement(
+          "div",
+          { className: "heroWrapper" },
+          _react2.default.createElement("img", { src: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension })
+        )
+      );
+    }
     return _react2.default.createElement(
       "div",
-      { className: "scoreboard" },
-      _react2.default.createElement(Header, { title: this.props.title }),
-      _react2.default.createElement(
-        "div",
-        { className: "heroWrapper" },
-        _react2.default.createElement(Image, { searchResults: this.state.searchResults })
-      )
+      null,
+      "Loading..."
     );
   }
 });
