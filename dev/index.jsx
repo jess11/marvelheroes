@@ -36,7 +36,12 @@ var Application = React.createClass({
   getInitialState: function(){
     return {data: fetchedData || []}
 	},
-
+  // showResults: function(response){
+  //   this.setState({
+  //     searchResults: response.data.results[0]
+  //   })
+  //   console.log(response.data.results[0]);
+  // },
   loadAPI: function(){
     $.ajax({
       url: "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a",
@@ -45,10 +50,10 @@ var Application = React.createClass({
       success: function(data){
         fetchedData= data.data.results;
         this.setState({data: data.data.results});
-      }.bind(this),
-      error: function(xhr, status, err) {
-          console.error(this.props.url, status, err.toString());
-      }.bind(this)
+        }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
     })
   },
 

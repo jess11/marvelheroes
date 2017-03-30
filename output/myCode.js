@@ -9522,7 +9522,12 @@ var Application = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return { data: fetchedData || [] };
   },
-
+  // showResults: function(response){
+  //   this.setState({
+  //     searchResults: response.data.results[0]
+  //   })
+  //   console.log(response.data.results[0]);
+  // },
   loadAPI: function loadAPI() {
     _jquery2.default.ajax({
       url: "https://gateway.marvel.com/v1/public/characters?apikey=92dde4ac94c721be4feaac337e4b990a",
