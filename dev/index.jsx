@@ -45,9 +45,9 @@ var Application = React.createClass({
       this.showResults(response);
     }.bind(this))
   },
-  // getImage: function(){
-  //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
-  // },
+  getImage: function(){
+    return this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension
+  },
 
   // loadData: function(){
   //     makeApiCall().then(function(data){
@@ -75,8 +75,8 @@ var Application = React.createClass({
         <div className="scoreboard">
           <Header title={this.props.title}/>
           <div className="heroWrapper">
-  
-            <img src={this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension}/>
+
+            <img src={this.state.getImage}/>
           </div>
         </div>
       );

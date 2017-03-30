@@ -9521,9 +9521,9 @@ var Application = _react2.default.createClass({
       this.showResults(response);
     }.bind(this));
   },
-  // getImage: function(){
-  //   return this.props.data.thumbnail.path + "." + this.props.data.thumbnail.extension
-  // },
+  getImage: function getImage() {
+    return this.state.showResults.thumbnail.path + "." + this.state.showResults.thumbnail.extension;
+  },
 
   // loadData: function(){
   //     makeApiCall().then(function(data){
@@ -9554,7 +9554,7 @@ var Application = _react2.default.createClass({
         _react2.default.createElement(
           "div",
           { className: "heroWrapper" },
-          _react2.default.createElement("img", { src: this.state.searchResults.thumbnail.path + "." + this.state.searchResults.thumbnail.extension })
+          _react2.default.createElement("img", { src: this.state.getImage })
         )
       );
     }
